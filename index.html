@@ -1,0 +1,3206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Mastery - Learn HTML from Basic to Advanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+            --glow-color: rgba(99, 102, 241, 0.5);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1e1b4b 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Mouse Glow Effect */
+        .mouse-glow {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px var(--glow-color);
+            animation: pulse 2s infinite;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item:hover {
+            background: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 20px var(--glow-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Level Selection */
+        .level-selection {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .level-radio {
+            display: none;
+        }
+
+        .level-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-label:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px var(--glow-color);
+            transform: translateY(-2px);
+        }
+
+        .level-radio:checked + .level-label {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        .level-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Lesson Cards */
+        .lessons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .lesson-card:hover::before {
+            opacity: 1;
+        }
+
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .lesson-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .code-example {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-example::before {
+            content: 'HTML';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .code-example pre {
+            color: #e6edf3;
+            margin: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            transform: scale(1.05);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Live Preview */
+        .live-preview {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #333;
+            min-height: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .live-preview::before {
+            content: 'Live Preview';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        /* Enhanced Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(-5px) rotate(-1deg); }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 20px var(--glow-color); }
+            50% { text-shadow: 0 0 40px var(--glow-color), 0 0 60px var(--glow-color); }
+            100% { text-shadow: 0 0 20px var(--glow-color); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%) scale(0.8); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(50px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.05) rotate(5deg); }
+            70% { transform: scale(0.95) rotate(-2deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes slideFromLeft {
+            0% { transform: translateX(-200px) rotate(-10deg); opacity: 0; }
+            100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes slideFromRight {
+            0% { transform: translateX(200px) rotate(10deg); opacity: 0; }
+            100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes zoomInRotate {
+            0% { transform: scale(0) rotate(180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes morphBackground {
+            0%, 100% { border-radius: 1rem; }
+            25% { border-radius: 2rem 1rem 2rem 1rem; }
+            50% { border-radius: 1rem 2rem 1rem 2rem; }
+            75% { border-radius: 2rem 1rem 2rem 1rem; }
+        }
+
+        @keyframes floatingParticles {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.7; }
+            25% { transform: translateY(-20px) translateX(10px) scale(1.1); opacity: 1; }
+            50% { transform: translateY(-10px) translateX(-10px) scale(0.9); opacity: 0.8; }
+            75% { transform: translateY(-30px) translateX(5px) scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Enhanced Visual Effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: gradientMove 20s ease infinite;
+        }
+
+        .floating-particles {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatingParticles 8s infinite ease-in-out;
+            opacity: 0.3;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            animation: morphBackground 10s ease-in-out infinite;
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lesson-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-10px) scale(1.02) rotateX(5deg);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 30px var(--glow-color),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .lesson-card:hover::before {
+            opacity: 1;
+        }
+
+        .lesson-card:hover::after {
+            opacity: 1;
+            transform: rotate(45deg) translate(100%, 100%);
+        }
+
+        .lesson-notes {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-notes::before {
+            content: '💡';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .lesson-notes h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            animation: slideFromLeft 0.6s ease;
+        }
+
+        .lesson-notes ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .lesson-notes li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+            animation: fadeInUp 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        .lesson-notes li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .lesson-notes li:nth-child(1) { animation-delay: 0.1s; }
+        .lesson-notes li:nth-child(2) { animation-delay: 0.2s; }
+        .lesson-notes li:nth-child(3) { animation-delay: 0.3s; }
+        .lesson-notes li:nth-child(4) { animation-delay: 0.4s; }
+        .lesson-notes li:nth-child(5) { animation-delay: 0.5s; }
+
+        .code-example {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            animation: slideFromRight 0.8s ease;
+        }
+
+        .code-example::before {
+            content: 'HTML';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            animation: zoomInRotate 0.8s ease;
+            animation-delay: 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .live-preview {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #333;
+            min-height: 100px;
+            position: relative;
+            overflow: hidden;
+            animation: bounceIn 0.8s ease;
+            animation-delay: 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .live-preview::before {
+            content: 'Live Preview';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-color), var(--success-color));
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            animation: slideFromLeft 0.6s ease;
+            animation-delay: 0.8s;
+            animation-fill-mode: both;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            margin: 1rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--success-color));
+            background-size: 200% 100%;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: gradientMove 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+            animation: bounceIn 0.6s ease;
+            animation-fill-mode: both;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .badge:hover::before {
+            left: 100%;
+        }
+
+        .badge:nth-child(1) { animation-delay: 0.1s; }
+        .badge:nth-child(2) { animation-delay: 0.2s; }
+        .badge:nth-child(3) { animation-delay: 0.3s; }
+
+        .lesson-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            animation: float 4s ease-in-out infinite;
+            text-shadow: 0 0 20px var(--glow-color);
+            transition: all 0.3s ease;
+        }
+
+        .lesson-card:hover .lesson-icon {
+            transform: scale(1.2) rotate(360deg);
+            text-shadow: 0 0 30px var(--glow-color);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            animation: slideIn 0.3s ease, bounceIn 0.6s ease;
+        }
+
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .notification.show::before {
+            left: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .level-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .lessons-container {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Syntax Highlighting */
+        .tag { color: #7dd3fc; }
+        .attr { color: #fbbf24; }
+        .value { color: #34d399; }
+        .comment { color: #94a3b8; }
+        .text { color: #e2e8f0; }
+
+        /* Progress Indicator */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.5s ease;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        /* Interactive Elements */
+        .interactive-demo {
+            background: var(--card-bg);
+            border: 2px dashed var(--border-color);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin: 1rem 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-demo:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Quiz Styles */
+        .quiz-option {
+            display: block;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.2);
+            animation: correctAnswer 0.5s ease;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger-color);
+            background: rgba(239, 68, 68, 0.2);
+            animation: incorrectAnswer 0.5s ease;
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectAnswer {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .quiz-submit:hover {
+            background: #5b21b6;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .quiz-result {
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .quiz-result.correct {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .quiz-result.incorrect {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+
+        /* Challenge Styles */
+        .challenge-solution {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { max-height: 0; opacity: 0; }
+            to { max-height: 500px; opacity: 1; }
+        }
+
+        .solution-visible {
+            display: block !important;
+        }
+
+        /* Tool Card Hover Effects */
+        .tool-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Resource Card Enhancements */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .resource-card:hover::before {
+            left: 100%;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-meter {
+            width: 100%;
+            height: 20px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 10px;
+            transition: width 2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-glow" id="mouseGlow"></div>
+    
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">🚀 HTML Mastery</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item" onclick="scrollToSection('hero')">Home</li>
+                    <li class="nav-item" onclick="scrollToSection('lessons')">Lessons</li>
+                    <li class="nav-item" onclick="scrollToSection('practice')">Practice</li>
+                    <li class="nav-item" onclick="scrollToSection('resources')">Resources</li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero" id="hero">
+            <h1>Master HTML Like a Pro</h1>
+            <p>Learn HTML from the ground up with interactive lessons, live examples, and hands-on practice. From basic tags to advanced techniques.<br> " Created By Kyaw Myo Naing "</p>
+            
+            <div class="level-selection">
+                <input type="radio" id="beginner" name="level" class="level-radio" checked>
+                <label for="beginner" class="level-label">
+                    <span class="level-icon">🌱</span>
+                    <span>Beginner</span>
+                </label>
+                
+                <input type="radio" id="intermediate" name="level" class="level-radio">
+                <label for="intermediate" class="level-label">
+                    <span class="level-icon">🚀</span>
+                    <span>Intermediate</span>
+                </label>
+                
+                <input type="radio" id="advanced" name="level" class="level-radio">
+                <label for="advanced" class="level-label">
+                    <span class="level-icon">⚡</span>
+                    <span>Advanced</span>
+                </label>
+            </div>
+        </section>
+
+        <section class="lessons-container" id="lessons">
+            <!-- Beginner Lessons -->
+            <div class="lesson-card beginner-lesson">
+                <div class="lesson-header">
+                    <div class="lesson-icon">📝</div>
+                    <div class="lesson-title">HTML Basics</div>
+                </div>
+                <div class="lesson-description">
+                    Learn the fundamental structure of HTML documents, including DOCTYPE, html, head, and body tags.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Basic HTML Structure --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html <span class="attr">lang</span>=<span class="value">"en"</span>&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta <span class="attr">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="text">My First Page</span><span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="text">Hello World!</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <h1>Hello World!</h1>
+                </div>
+                <div class="badge">Essential</div>
+                <div class="badge">Foundation</div>
+            </div>
+
+            <div class="lesson-card beginner-lesson">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🔤</div>
+                    <div class="lesson-title">Text Elements</div>
+                </div>
+                <div class="lesson-description">
+                    Master headings, paragraphs, and text formatting with semantic HTML elements.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;h1&gt;</span><span class="text">Main Heading</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="text">Subheading</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="text">This is a paragraph with </span><span class="tag">&lt;strong&gt;</span><span class="text">bold</span><span class="tag">&lt;/strong&gt;</span><span class="text"> and </span><span class="tag">&lt;em&gt;</span><span class="text">italic</span><span class="tag">&lt;/em&gt;</span><span class="text"> text.</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="text">Line breaks</span><span class="tag">&lt;br&gt;</span><span class="text">can be added like this.</span><span class="tag">&lt;/p&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <h1>Main Heading</h1>
+                    <h2>Subheading</h2>
+                    <p>This is a paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
+                    <p>Line breaks<br>can be added like this.</p>
+                </div>
+                <div class="badge">Typography</div>
+            </div>
+
+            <div class="lesson-card beginner-lesson">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🔗</div>
+                    <div class="lesson-title">Links & Navigation</div>
+                </div>
+                <div class="lesson-description">
+                    Create hyperlinks, navigation menus, and understand link attributes and behaviors.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- External Link --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="value">"https://example.com"</span> <span class="attr">target</span>=<span class="value">"_blank"</span>&gt;</span><span class="text">Visit Example</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Internal Link --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="value">"#section1"</span>&gt;</span><span class="text">Go to Section 1</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Email Link --&gt;</span>
+<span class="tag">&lt;a <span class="attr">href</span>=<span class="value">"mailto:hello@example.com"</span>&gt;</span><span class="text">Send Email</span><span class="tag">&lt;/a&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <a href="#" style="color: #3b82f6; text-decoration: underline;">Visit Example</a><br><br>
+                    <a href="#" style="color: #3b82f6; text-decoration: underline;">Go to Section 1</a><br><br>
+                    <a href="#" style="color: #3b82f6; text-decoration: underline;">Send Email</a>
+                </div>
+                <div class="badge">Navigation</div>
+            </div>
+
+            <!-- Intermediate Lessons - EXPANDED FORMS SECTION -->
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">📋</div>
+                    <div class="lesson-title">Basic Forms & Input</div>
+                </div>
+                <div class="lesson-description">
+                    Build interactive forms with basic input types, proper structure, and form submission.
+                </div>
+                <div class="lesson-notes">
+                    <h4>📚 Key Learning Points:</h4>
+                    <ul>
+                        <li>&lt;form&gt; element defines the form boundary and submission behavior</li>
+                        <li>action attribute specifies where form data is sent</li>
+                        <li>method attribute defines HTTP method (GET/POST)</li>
+                        <li>&lt;label&gt; elements improve accessibility and usability</li>
+                        <li>name attributes are essential for server-side processing</li>
+                    </ul>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;form <span class="attr">action</span>=<span class="value">"/submit"</span> <span class="attr">method</span>=<span class="value">"POST"</span> <span class="attr">id</span>=<span class="value">"contact-form"</span>&gt;</span>
+    <span class="comment">&lt;!-- Text Input --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"name"</span>&gt;</span><span class="text">Full Name:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"text"</span> <span class="attr">id</span>=<span class="value">"name"</span> <span class="attr">name</span>=<span class="value">"fullname"</span> <span class="attr">required</span> <span class="attr">placeholder</span>=<span class="value">"Enter your full name"</span>&gt;</span>
+    
+    <span class="comment">&lt;!-- Email Input --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"email"</span>&gt;</span><span class="text">Email Address:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"email"</span> <span class="attr">id</span>=<span class="value">"email"</span> <span class="attr">name</span>=<span class="value">"email"</span> <span class="attr">required</span>&gt;</span>
+    
+    <span class="comment">&lt;!-- Password Input --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"password"</span>&gt;</span><span class="text">Password:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"password"</span> <span class="attr">id</span>=<span class="value">"password"</span> <span class="attr">name</span>=<span class="value">"password"</span> <span class="attr">minlength</span>=<span class="value">"8"</span>&gt;</span>
+    
+    <span class="comment">&lt;!-- Submit Button --&gt;</span>
+    <span class="tag">&lt;button <span class="attr">type</span>=<span class="value">"submit"</span>&gt;</span><span class="text">Submit Form</span><span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;button <span class="attr">type</span>=<span class="value">"reset"</span>&gt;</span><span class="text">Reset</span><span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <form style="display: flex; flex-direction: column; gap: 15px; max-width: 300px;">
+                        <div>
+                            <label for="demo-name" style="display: block; margin-bottom: 5px; font-weight: bold;">Full Name:</label>
+                            <input type="text" id="demo-name" placeholder="Enter your full name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div>
+                            <label for="demo-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email Address:</label>
+                            <input type="email" id="demo-email" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div>
+                            <label for="demo-password" style="display: block; margin-bottom: 5px; font-weight: bold;">Password:</label>
+                            <input type="password" id="demo-password" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" style="flex: 1; padding: 10px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">Submit Form</button>
+                            <button type="reset" style="flex: 1; padding: 10px; background: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer;">Reset</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="badge">Forms</div>
+                <div class="badge">User Input</div>
+                <div class="badge">Validation</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">✅</div>
+                    <div class="lesson-title">Form Controls & Selection</div>
+                </div>
+                <div class="lesson-description">
+                    Master checkboxes, radio buttons, select dropdowns, and textarea elements for user choices.
+                </div>
+                <div class="lesson-notes">
+                    <h4>📚 Key Learning Points:</h4>
+                    <ul>
+                        <li>Radio buttons allow single selection from a group (same name attribute)</li>
+                        <li>Checkboxes allow multiple selections with individual values</li>
+                        <li>&lt;select&gt; creates dropdown menus with &lt;option&gt; elements</li>
+                        <li>&lt;textarea&gt; provides multi-line text input with rows/cols</li>
+                        <li>fieldset and legend group related form controls</li>
+                    </ul>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;form&gt;</span>
+    <span class="comment">&lt;!-- Radio Buttons --&gt;</span>
+    <span class="tag">&lt;fieldset&gt;</span>
+        <span class="tag">&lt;legend&gt;</span><span class="text">Choose your experience level:</span><span class="tag">&lt;/legend&gt;</span>
+        <span class="tag">&lt;label&gt;</span>
+            <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"radio"</span> <span class="attr">name</span>=<span class="value">"experience"</span> <span class="attr">value</span>=<span class="value">"beginner"</span>&gt;</span>
+            <span class="text">Beginner</span>
+        <span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;label&gt;</span>
+            <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"radio"</span> <span class="attr">name</span>=<span class="value">"experience"</span> <span class="attr">value</span>=<span class="value">"intermediate"</span>&gt;</span>
+            <span class="text">Intermediate</span>
+        <span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;label&gt;</span>
+            <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"radio"</span> <span class="attr">name</span>=<span class="value">"experience"</span> <span class="attr">value</span>=<span class="value">"advanced"</span>&gt;</span>
+            <span class="text">Advanced</span>
+        <span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;/fieldset&gt;</span>
+
+    <span class="comment">&lt;!-- Checkboxes --&gt;</span>
+    <span class="tag">&lt;fieldset&gt;</span>
+        <span class="tag">&lt;legend&gt;</span><span class="text">Skills (select all that apply):</span><span class="tag">&lt;/legend&gt;</span>
+        <span class="tag">&lt;label&gt;</span>
+            <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"checkbox"</span> <span class="attr">name</span>=<span class="value">"skills"</span> <span class="attr">value</span>=<span class="value">"html"</span>&gt;</span>
+            <span class="text">HTML</span>
+        <span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;label&gt;</span>
+            <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"checkbox"</span> <span class="attr">name</span>=<span class="value">"skills"</span> <span class="attr">value</span>=<span class="value">"css"</span>&gt;</span>
+            <span class="text">CSS</span>
+        <span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;label&gt;</span>
+            <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"checkbox"</span> <span class="attr">name</span>=<span class="value">"skills"</span> <span class="attr">value</span>=<span class="value">"js"</span>&gt;</span>
+            <span class="text">JavaScript</span>
+        <span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;/fieldset&gt;</span>
+
+    <span class="comment">&lt;!-- Select Dropdown --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"country"</span>&gt;</span><span class="text">Country:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;select <span class="attr">id</span>=<span class="value">"country"</span> <span class="attr">name</span>=<span class="value">"country"</span>&gt;</span>
+        <span class="tag">&lt;option <span class="attr">value</span>=<span class="value">""</span>&gt;</span><span class="text">Choose a country</span><span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option <span class="attr">value</span>=<span class="value">"us"</span>&gt;</span><span class="text">United States</span><span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option <span class="attr">value</span>=<span class="value">"uk"</span>&gt;</span><span class="text">United Kingdom</span><span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option <span class="attr">value</span>=<span class="value">"ca"</span>&gt;</span><span class="text">Canada</span><span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;/select&gt;</span>
+
+    <span class="comment">&lt;!-- Textarea --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"message"</span>&gt;</span><span class="text">Message:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;textarea <span class="attr">id</span>=<span class="value">"message"</span> <span class="attr">name</span>=<span class="value">"message"</span> <span class="attr">rows</span>=<span class="value">"4"</span> <span class="attr">cols</span>=<span class="value">"50"</span> <span class="attr">placeholder</span>=<span class="value">"Enter your message here..."</span>&gt;</span><span class="tag">&lt;/textarea&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <form style="display: flex; flex-direction: column; gap: 20px;">
+                        <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 4px;">
+                            <legend style="font-weight: bold; padding: 0 10px;">Choose your experience level:</legend>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="demo-experience" value="beginner">
+                                    <span>Beginner</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="demo-experience" value="intermediate">
+                                    <span>Intermediate</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="demo-experience" value="advanced">
+                                    <span>Advanced</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 4px;">
+                            <legend style="font-weight: bold; padding: 0 10px;">Skills (select all that apply):</legend>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" name="demo-skills" value="html">
+                                    <span>HTML</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" name="demo-skills" value="css">
+                                    <span>CSS</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" name="demo-skills" value="js">
+                                    <span>JavaScript</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        
+                        <div>
+                            <label for="demo-country" style="display: block; margin-bottom: 5px; font-weight: bold;">Country:</label>
+                            <select id="demo-country" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="">Choose a country</option>
+                                <option value="us">United States</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="ca">Canada</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="demo-message" style="display: block; margin-bottom: 5px; font-weight: bold;">Message:</label>
+                            <textarea id="demo-message" rows="4" placeholder="Enter your message here..." style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="badge">Selection</div>
+                <div class="badge">Fieldsets</div>
+                <div class="badge">Multiple Choice</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🎯</div>
+                    <div class="lesson-title">HTML5 Input Types</div>
+                </div>
+                <div class="lesson-description">
+                    Explore modern HTML5 input types for better user experience and built-in validation.
+                </div>
+                <div class="lesson-notes">
+                    <h4>📚 Key Learning Points:</h4>
+                    <ul>
+                        <li>HTML5 input types provide automatic validation and mobile keyboards</li>
+                        <li>date, time, datetime-local for temporal data entry</li>
+                        <li>number, range for numeric inputs with min/max constraints</li>
+                        <li>color picker, file upload, and search inputs</li>
+                        <li>tel and url inputs trigger appropriate mobile keyboards</li>
+                    </ul>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;form&gt;</span>
+    <span class="comment">&lt;!-- Date and Time Inputs --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"birthday"</span>&gt;</span><span class="text">Birthday:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"date"</span> <span class="attr">id</span>=<span class="value">"birthday"</span> <span class="attr">name</span>=<span class="value">"birthday"</span> <span class="attr">min</span>=<span class="value">"1900-01-01"</span> <span class="attr">max</span>=<span class="value">"2024-12-31"</span>&gt;</span>
+
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"appointment"</span>&gt;</span><span class="text">Appointment:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"datetime-local"</span> <span class="attr">id</span>=<span class="value">"appointment"</span> <span class="attr">name</span>=<span class="value">"appointment"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Numeric Inputs --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"age"</span>&gt;</span><span class="text">Age:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"number"</span> <span class="attr">id</span>=<span class="value">"age"</span> <span class="attr">name</span>=<span class="value">"age"</span> <span class="attr">min</span>=<span class="value">"13"</span> <span class="attr">max</span>=<span class="value">"120"</span> <span class="attr">step</span>=<span class="value">"1"</span>&gt;</span>
+
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"volume"</span>&gt;</span><span class="text">Volume:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"range"</span> <span class="attr">id</span>=<span class="value">"volume"</span> <span class="attr">name</span>=<span class="value">"volume"</span> <span class="attr">min</span>=<span class="value">"0"</span> <span class="attr">max</span>=<span class="value">"100"</span> <span class="attr">value</span>=<span class="value">"50"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Color and File Inputs --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"favcolor"</span>&gt;</span><span class="text">Favorite Color:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"color"</span> <span class="attr">id</span>=<span class="value">"favcolor"</span> <span class="attr">name</span>=<span class="value">"favcolor"</span> <span class="attr">value</span>=<span class="value">"#3b82f6"</span>&gt;</span>
+
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"avatar"</span>&gt;</span><span class="text">Profile Picture:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"file"</span> <span class="attr">id</span>=<span class="value">"avatar"</span> <span class="attr">name</span>=<span class="value">"avatar"</span> <span class="attr">accept</span>=<span class="value">"image/*"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Contact Inputs --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"phone"</span>&gt;</span><span class="text">Phone:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"tel"</span> <span class="attr">id</span>=<span class="value">"phone"</span> <span class="attr">name</span>=<span class="value">"phone"</span> <span class="attr">pattern</span>=<span class="value">"[0-9]{3}-[0-9]{3}-[0-9]{4}"</span> <span class="attr">placeholder</span>=<span class="value">"123-456-7890"</span>&gt;</span>
+
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"website"</span>&gt;</span><span class="text">Website:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"url"</span> <span class="attr">id</span>=<span class="value">"website"</span> <span class="attr">name</span>=<span class="value">"website"</span> <span class="attr">placeholder</span>=<span class="value">"https://example.com"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Search Input --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"search"</span>&gt;</span><span class="text">Search:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"search"</span> <span class="attr">id</span>=<span class="value">"search"</span> <span class="attr">name</span>=<span class="value">"search"</span> <span class="attr">placeholder</span>=<span class="value">"Search our site..."</span>&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <form style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px; align-items: center; max-width: 500px;">
+                        <label for="demo-birthday" style="font-weight: bold;">Birthday:</label>
+                        <input type="date" id="demo-birthday" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <label for="demo-appointment" style="font-weight: bold;">Appointment:</label>
+                        <input type="datetime-local" id="demo-appointment" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <label for="demo-age" style="font-weight: bold;">Age:</label>
+                        <input type="number" id="demo-age" min="13" max="120" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <label for="demo-volume" style="font-weight: bold;">Volume:</label>
+                        <input type="range" id="demo-volume" min="0" max="100" value="50" style="width: 100%;">
+                        
+                        <label for="demo-favcolor" style="font-weight: bold;">Favorite Color:</label>
+                        <input type="color" id="demo-favcolor" value="#3b82f6" style="width: 60px; height: 40px; border: none; border-radius: 4px;">
+                        
+                        <label for="demo-avatar" style="font-weight: bold;">Profile Picture:</label>
+                        <input type="file" id="demo-avatar" accept="image/*" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <label for="demo-phone" style="font-weight: bold;">Phone:</label>
+                        <input type="tel" id="demo-phone" placeholder="123-456-7890" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <label for="demo-website" style="font-weight: bold;">Website:</label>
+                        <input type="url" id="demo-website" placeholder="https://example.com" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <label for="demo-search" style="font-weight: bold;">Search:</label>
+                        <input type="search" id="demo-search" placeholder="Search our site..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    </form>
+                </div>
+                <div class="badge">HTML5</div>
+                <div class="badge">Modern Inputs</div>
+                <div class="badge">Validation</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🛡️</div>
+                    <div class="lesson-title">Form Validation & Attributes</div>
+                </div>
+                <div class="lesson-description">
+                    Implement client-side validation with HTML5 attributes and provide user feedback.
+                </div>
+                <div class="lesson-notes">
+                    <h4>📚 Key Learning Points:</h4>
+                    <ul>
+                        <li>required attribute makes fields mandatory</li>
+                        <li>pattern attribute uses regex for custom validation</li>
+                        <li>min, max, step control numeric input ranges</li>
+                        <li>maxlength, minlength limit text input length</li>
+                        <li>Custom validation messages improve user experience</li>
+                    </ul>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;form <span class="attr">novalidate</span>&gt;</span>
+    <span class="comment">&lt;!-- Required Field with Custom Message --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"username"</span>&gt;</span><span class="text">Username (required):</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"text"</span> 
+           <span class="attr">id</span>=<span class="value">"username"</span> 
+           <span class="attr">name</span>=<span class="value">"username"</span> 
+           <span class="attr">required</span>
+           <span class="attr">minlength</span>=<span class="value">"3"</span>
+           <span class="attr">maxlength</span>=<span class="value">"20"</span>
+           <span class="attr">pattern</span>=<span class="value">"[a-zA-Z0-9_]+"</span>
+           <span class="attr">title</span>=<span class="value">"Username must be 3-20 characters, letters, numbers, and underscore only"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Email with Custom Pattern --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"work-email"</span>&gt;</span><span class="text">Work Email:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"email"</span> 
+           <span class="attr">id</span>=<span class="value">"work-email"</span> 
+           <span class="attr">name</span>=<span class="value">"workemail"</span>
+           <span class="attr">pattern</span>=<span class="value">"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"</span>
+           <span class="attr">title</span>=<span class="value">"Please enter a valid email address"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Password with Strength Requirements --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"strong-password"</span>&gt;</span><span class="text">Strong Password:</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"password"</span> 
+           <span class="attr">id</span>=<span class="value">"strong-password"</span> 
+           <span class="attr">name</span>=<span class="value">"password"</span>
+           <span class="attr">required</span>
+           <span class="attr">minlength</span>=<span class="value">"8"</span>
+           <span class="attr">pattern</span>=<span class="value">"(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&amp;])[A-Za-z\d@$!%*?&amp;]{8,}"</span>
+           <span class="attr">title</span>=<span class="value">"Password must be 8+ chars with uppercase, lowercase, number, and special character"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Numeric Range Validation --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"price"</span>&gt;</span><span class="text">Price ($):</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"number"</span> 
+           <span class="attr">id</span>=<span class="value">"price"</span> 
+           <span class="attr">name</span>=<span class="value">"price"</span>
+           <span class="attr">min</span>=<span class="value">"0.01"</span>
+           <span class="attr">max</span>=<span class="value">"999999.99"</span>
+           <span class="attr">step</span>=<span class="value">"0.01"</span>
+           <span class="attr">required</span>
+           <span class="attr">placeholder</span>=<span class="value">"0.00"</span>&gt;</span>
+
+    <span class="comment">&lt;!-- File Upload with Restrictions --&gt;</span>
+    <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"document"</span>&gt;</span><span class="text">Document (PDF only):</span><span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"file"</span> 
+           <span class="attr">id</span>=<span class="value">"document"</span> 
+           <span class="attr">name</span>=<span class="value">"document"</span>
+           <span class="attr">accept</span>=<span class="value">".pdf"</span>
+           <span class="attr">required</span>&gt;</span>
+
+    <span class="comment">&lt;!-- Agreement Checkbox --&gt;</span>
+    <span class="tag">&lt;label&gt;</span>
+        <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"checkbox"</span> <span class="attr">name</span>=<span class="value">"agree"</span> <span class="attr">required</span>&gt;</span>
+        <span class="text">I agree to the terms and conditions</span>
+    <span class="tag">&lt;/label&gt;</span>
+
+    <span class="tag">&lt;button <span class="attr">type</span>=<span class="value">"submit"</span>&gt;</span><span class="text">Submit with Validation</span><span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <form style="display: flex; flex-direction: column; gap: 15px; max-width: 400px;" novalidate>
+                        <div>
+                            <label for="demo-username" style="display: block; margin-bottom: 5px; font-weight: bold;">Username (required):</label>
+                            <input type="text" id="demo-username" required minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+" title="Username must be 3-20 characters, letters, numbers, and underscore only" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <small style="color: #666;">3-20 characters, letters, numbers, underscore only</small>
+                        </div>
+                        
+                        <div>
+                            <label for="demo-work-email" style="display: block; margin-bottom: 5px; font-weight: bold;">Work Email:</label>
+                            <input type="email" id="demo-work-email" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        
+                        <div>
+                            <label for="demo-strong-password" style="display: block; margin-bottom: 5px; font-weight: bold;">Strong Password:</label>
+                            <input type="password" id="demo-strong-password" required minlength="8" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <small style="color: #666;">8+ chars with uppercase, lowercase, number, special character</small>
+                        </div>
+                        
+                        <div>
+                            <label for="demo-price" style="display: block; margin-bottom: 5px; font-weight: bold;">Price ($):</label>
+                            <input type="number" id="demo-price" min="0.01" max="999999.99" step="0.01" placeholder="0.00" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        
+                        <div>
+                            <label for="demo-document" style="display: block; margin-bottom: 5px; font-weight: bold;">Document (PDF only):</label>
+                            <input type="file" id="demo-document" accept=".pdf" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" name="demo-agree" required>
+                            <span>I agree to the terms and conditions</span>
+                        </label>
+                        
+                        <button type="submit" style="padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit with Validation</button>
+                    </form>
+                </div>
+                <div class="badge">Validation</div>
+                <div class="badge">Security</div>
+                <div class="badge">User Experience</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">♿</div>
+                    <div class="lesson-title">Form Accessibility & UX</div>
+                </div>
+                <div class="lesson-description">
+                    Create accessible forms with proper labeling, error handling, and user-friendly design.
+                </div>
+                <div class="lesson-notes">
+                    <h4>📚 Key Learning Points:</h4>
+                    <ul>
+                        <li>Every form control must have an associated label</li>
+                        <li>Use aria-describedby for additional help text</li>
+                        <li>Provide clear error messages and success feedback</li>
+                        <li>Group related fields with fieldset and legend</li>
+                        <li>Ensure keyboard navigation works properly</li>
+                    </ul>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;form <span class="attr">role</span>=<span class="value">"form"</span> <span class="attr">aria-labelledby</span>=<span class="value">"form-title"</span>&gt;</span>
+    <span class="tag">&lt;h2 <span class="attr">id</span>=<span class="value">"form-title"</span>&gt;</span><span class="text">Contact Information</span><span class="tag">&lt;/h2&gt;</span>
+    
+    <span class="comment">&lt;!-- Accessible Input with Help Text --&gt;</span>
+    <span class="tag">&lt;div <span class="attr">class</span>=<span class="value">"form-group"</span>&gt;</span>
+        <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"email-acc"</span>&gt;</span><span class="text">Email Address *</span><span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"email"</span> 
+               <span class="attr">id</span>=<span class="value">"email-acc"</span> 
+               <span class="attr">name</span>=<span class="value">"email"</span>
+               <span class="attr">required</span>
+               <span class="attr">aria-describedby</span>=<span class="value">"email-help email-error"</span>
+               <span class="attr">aria-invalid</span>=<span class="value">"false"</span>&gt;</span>
+        <span class="tag">&lt;div <span class="attr">id</span>=<span class="value">"email-help"</span> <span class="attr">class</span>=<span class="value">"help-text"</span>&gt;</span>
+            <span class="text">We'll use this to send you important updates</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;div <span class="attr">id</span>=<span class="value">"email-error"</span> <span class="attr">class</span>=<span class="value">"error-message"</span> <span class="attr">role</span>=<span class="value">"alert"</span> <span class="attr">aria-live</span>=<span class="value">"polite"</span>&gt;</span>
+            <span class="comment">&lt;!-- Error message will appear here --&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Fieldset for Related Options --&gt;</span>
+    <span class="tag">&lt;fieldset&gt;</span>
+        <span class="tag">&lt;legend&gt;</span><span class="text">Preferred Contact Method *</span><span class="tag">&lt;/legend&gt;</span>
+        <span class="tag">&lt;div <span class="attr">role</span>=<span class="value">"radiogroup"</span> <span class="attr">aria-required</span>=<span class="value">"true"</span>&gt;</span>
+            <span class="tag">&lt;label&gt;</span>
+                <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"radio"</span> <span class="attr">name</span>=<span class="value">"contact-method"</span> <span class="attr">value</span>=<span class="value">"email"</span> <span class="attr">required</span>&gt;</span>
+                <span class="text">Email</span>
+            <span class="tag">&lt;/label&gt;</span>
+            <span class="tag">&lt;label&gt;</span>
+                <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"radio"</span> <span class="attr">name</span>=<span class="value">"contact-method"</span> <span class="attr">value</span>=<span class="value">"phone"</span> <span class="attr">required</span>&gt;</span>
+                <span class="text">Phone</span>
+            <span class="tag">&lt;/label&gt;</span>
+            <span class="tag">&lt;label&gt;</span>
+                <span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"radio"</span> <span class="attr">name</span>=<span class="value">"contact-method"</span> <span class="attr">value</span>=<span class="value">"text"</span> <span class="attr">required</span>&gt;</span>
+                <span class="text">Text Message</span>
+            <span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/fieldset&gt;</span>
+
+    <span class="comment">&lt;!-- Multi-line Input with Character Count --&gt;</span>
+    <span class="tag">&lt;div <span class="attr">class</span>=<span class="value">"form-group"</span>&gt;</span>
+        <span class="tag">&lt;label <span class="attr">for</span>=<span class="value">"message-acc"</span>&gt;</span><span class="text">Your Message</span><span class="tag">&lt;/label&gt;</span>
+        <span class="tag">&lt;textarea <span class="attr">id</span>=<span class="value">"message-acc"</span> 
+                  <span class="attr">name</span>=<span class="value">"message"</span>
+                  <span class="attr">rows</span>=<span class="value">"4"</span>
+                  <span class="attr">maxlength</span>=<span class="value">"500"</span>
+                  <span class="attr">aria-describedby</span>=<span class="value">"message-count"</span>
+                  <span class="attr">placeholder</span>=<span class="value">"Tell us how we can help you..."</span>&gt;</span><span class="tag">&lt;/textarea&gt;</span>
+        <span class="tag">&lt;div <span class="attr">id</span>=<span class="value">"message-count"</span> <span class="attr">class</span>=<span class="value">"char-count"</span>&gt;</span>
+            <span class="text">0/500 characters</span>
+        <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Submit Button with Loading State --&gt;</span>
+    <span class="tag">&lt;button <span class="attr">type</span>=<span class="value">"submit"</span> 
+            <span class="attr">aria-describedby</span>=<span class="value">"submit-help"</span>&gt;</span>
+        <span class="text">Send Message</span>
+    <span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;div <span class="attr">id</span>=<span class="value">"submit-help"</span> <span class="attr">class</span>=<span class="value">"help-text"</span>&gt;</span>
+        <span class="text">Your message will be sent securely</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="comment">&lt;!-- Success Message Area --&gt;</span>
+    <span class="tag">&lt;div <span class="attr">id</span>=<span class="value">"success-message"</span> <span class="attr">class</span>=<span class="value">"success-message"</span> <span class="attr">role</span>=<span class="value">"status"</span> <span class="attr">aria-live</span>=<span class="value">"polite"</span>&gt;</span>
+        <span class="comment">&lt;!-- Success message will appear here --&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <form style="max-width: 500px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa;">
+                        <h3 style="margin: 0 0 20px 0; color: #333;">Contact Information</h3>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label for="demo-email-acc" style="display: block; margin-bottom: 5px; font-weight: bold;">Email Address *</label>
+                            <input type="email" id="demo-email-acc" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 5px;">
+                            <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">We'll use this to send you important updates</div>
+                            <div id="demo-email-error" style="color: #e74c3c; font-size: 0.9em; min-height: 20px;"></div>
+                        </div>
+                        
+                        <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                            <legend style="font-weight: bold; padding: 0 10px;">Preferred Contact Method *</legend>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="demo-contact-method" value="email" required>
+                                    <span>Email</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="demo-contact-method" value="phone" required>
+                                    <span>Phone</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="demo-contact-method" value="text" required>
+                                    <span>Text Message</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label for="demo-message-acc" style="display: block; margin-bottom: 5px; font-weight: bold;">Your Message</label>
+                            <textarea id="demo-message-acc" rows="4" maxlength="500" placeholder="Tell us how we can help you..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical;"></textarea>
+                            <div style="text-align: right; font-size: 0.9em; color: #666;">0/500 characters</div>
+                        </div>
+                        
+                        <button type="submit" style="padding: 12px 24px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">Send Message</button>
+                        <div style="font-size: 0.9em; color: #666; margin-top: 10px; text-align: center;">Your message will be sent securely</div>
+                    </form>
+                </div>
+                <div class="badge">Accessibility</div>
+                <div class="badge">ARIA</div>
+                <div class="badge">User Experience</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🎨</div>
+                    <div class="lesson-title">Semantic HTML</div>
+                </div>
+                <div class="lesson-description">
+                    Use semantic elements like header, nav, main, article, section, and footer for better structure and accessibility.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav&gt;</span><span class="text">Navigation</span><span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;/header&gt;</span>
+
+<span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;article&gt;</span>
+        <span class="tag">&lt;h1&gt;</span><span class="text">Article Title</span><span class="tag">&lt;/h1&gt;</span>
+        <span class="tag">&lt;section&gt;</span>
+            <span class="tag">&lt;h2&gt;</span><span class="text">Section Heading</span><span class="tag">&lt;/h2&gt;</span>
+            <span class="tag">&lt;p&gt;</span><span class="text">Content here...</span><span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/section&gt;</span>
+    <span class="tag">&lt;/article&gt;</span>
+<span class="tag">&lt;/main&gt;</span>
+
+<span class="tag">&lt;footer&gt;</span><span class="text">Footer content</span><span class="tag">&lt;/footer&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
+                        <strong>Header</strong> - Navigation
+                    </div>
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
+                        <strong>Main</strong>
+                        <div style="margin-left: 20px;">
+                            <strong>Article Title</strong>
+                            <div style="margin-left: 20px;">Section content...</div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
+                        <strong>Footer</strong> - Footer content
+                    </div>
+                </div>
+                <div class="badge">Semantic</div>
+                <div class="badge">Accessibility</div>
+            </div>
+
+            <!-- More Beginner Lessons -->
+            <div class="lesson-card beginner-lesson">
+                <div class="lesson-header">
+                    <div class="lesson-icon">📝</div>
+                    <div class="lesson-title">Lists & Organization</div>
+                </div>
+                <div class="lesson-description">
+                    Create organized content with ordered lists, unordered lists, and description lists.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Unordered List --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">First item</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Second item</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Third item</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="comment">&lt;!-- Ordered List --&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Step one</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Step two</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span><span class="text">Step three</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+
+<span class="comment">&lt;!-- Description List --&gt;</span>
+<span class="tag">&lt;dl&gt;</span>
+    <span class="tag">&lt;dt&gt;</span><span class="text">HTML</span><span class="tag">&lt;/dt&gt;</span>
+    <span class="tag">&lt;dd&gt;</span><span class="text">HyperText Markup Language</span><span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <strong>Unordered List:</strong>
+                    <ul style="margin: 10px 0;">
+                        <li>First item</li>
+                        <li>Second item</li>
+                        <li>Third item</li>
+                    </ul>
+                    <strong>Ordered List:</strong>
+                    <ol style="margin: 10px 0;">
+                        <li>Step one</li>
+                        <li>Step two</li>
+                        <li>Step three</li>
+                    </ol>
+                    <strong>Description List:</strong>
+                    <dl style="margin: 10px 0;">
+                        <dt><strong>HTML</strong></dt>
+                        <dd>HyperText Markup Language</dd>
+                    </dl>
+                </div>
+                <div class="badge">Organization</div>
+                <div class="badge">Structure</div>
+            </div>
+
+            <div class="lesson-card beginner-lesson">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🖼️</div>
+                    <div class="lesson-title">Images & Graphics</div>
+                </div>
+                <div class="lesson-description">
+                    Learn to embed and optimize images with proper attributes, alt text, and responsive techniques.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Basic Image --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="value">"photo.jpg"</span> <span class="attr">alt</span>=<span class="value">"A beautiful sunset"</span> <span class="attr">width</span>=<span class="value">"300"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Responsive Image --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="value">"large.jpg"</span> 
+     <span class="attr">alt</span>=<span class="value">"Description"</span>
+     <span class="attr">style</span>=<span class="value">"max-width: 100%; height: auto;"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Image with Figure --&gt;</span>
+<span class="tag">&lt;figure&gt;</span>
+    <span class="tag">&lt;img <span class="attr">src</span>=<span class="value">"chart.png"</span> <span class="attr">alt</span>=<span class="value">"Sales Chart"</span>&gt;</span>
+    <span class="tag">&lt;figcaption&gt;</span><span class="text">Q4 Sales Performance</span><span class="tag">&lt;/figcaption&gt;</span>
+<span class="tag">&lt;/figure&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4); width: 200px; height: 120px; margin: 10px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                        🖼️ Sample Image
+                    </div>
+                    <figure style="margin: 10px 0; text-align: center;">
+                        <div style="background: #f0f0f0; padding: 20px; border: 1px solid #ccc;">📊 Chart Image</div>
+                        <figcaption style="font-style: italic; color: #666;">Q4 Sales Performance</figcaption>
+                    </figure>
+                </div>
+                <div class="badge">Media</div>
+                <div class="badge">Accessibility</div>
+            </div>
+
+            <div class="lesson-card beginner-lesson">
+                <div class="lesson-header">
+                    <div class="lesson-icon">📊</div>
+                    <div class="lesson-title">Tables & Data</div>
+                </div>
+                <div class="lesson-description">
+                    Structure tabular data with proper table elements, headers, and accessibility features.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="tag">&lt;table&gt;</span>
+    <span class="tag">&lt;thead&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;th&gt;</span><span class="text">Name</span><span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;th&gt;</span><span class="text">Age</span><span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;th&gt;</span><span class="text">City</span><span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/thead&gt;</span>
+    <span class="tag">&lt;tbody&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">John</span><span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">30</span><span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">New York</span><span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">Jane</span><span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">25</span><span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span><span class="text">London</span><span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <table style="border-collapse: collapse; width: 100%; margin: 10px 0;">
+                        <thead>
+                            <tr style="background: #f0f0f0;">
+                                <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Name</th>
+                                <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">Age</th>
+                                <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">City</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">John</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">30</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">New York</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">Jane</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">25</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">London</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="badge">Data</div>
+                <div class="badge">Tables</div>
+            </div>
+
+            <!-- More Intermediate Lessons -->
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🎨</div>
+                    <div class="lesson-title">CSS Integration</div>
+                </div>
+                <div class="lesson-description">
+                    Learn how to integrate CSS with HTML using inline styles, internal stylesheets, and external files.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- External CSS --&gt;</span>
+<span class="tag">&lt;link <span class="attr">rel</span>=<span class="value">"stylesheet"</span> <span class="attr">href</span>=<span class="value">"styles.css"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Internal CSS --&gt;</span>
+<span class="tag">&lt;style&gt;</span>
+    <span class="text">.highlight { background: yellow; }</span>
+    <span class="text">#main { color: blue; }</span>
+<span class="tag">&lt;/style&gt;</span>
+
+<span class="comment">&lt;!-- Inline CSS --&gt;</span>
+<span class="tag">&lt;p <span class="attr">style</span>=<span class="value">"color: red; font-size: 18px;"</span>&gt;</span><span class="text">Styled text</span><span class="tag">&lt;/p&gt;</span>
+
+<span class="comment">&lt;!-- CSS Classes and IDs --&gt;</span>
+<span class="tag">&lt;div <span class="attr">class</span>=<span class="value">"highlight"</span> <span class="attr">id</span>=<span class="value">"main"</span>&gt;</span><span class="text">Content</span><span class="tag">&lt;/div&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="margin: 10px 0;">
+                        <p style="color: red; font-size: 18px; margin: 5px 0;">Styled text with inline CSS</p>
+                        <div style="background: yellow; color: blue; padding: 10px; margin: 5px 0; border-radius: 4px;">
+                            Content with class and ID styling
+                        </div>
+                    </div>
+                </div>
+                <div class="badge">Styling</div>
+                <div class="badge">CSS</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🏷️</div>
+                    <div class="lesson-title">Meta Tags & SEO</div>
+                </div>
+                <div class="lesson-description">
+                    Optimize your HTML for search engines and social media with proper meta tags and SEO techniques.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Basic Meta Tags --&gt;</span>
+<span class="tag">&lt;meta <span class="attr">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+<span class="tag">&lt;meta <span class="attr">name</span>=<span class="value">"viewport"</span> <span class="attr">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+<span class="tag">&lt;meta <span class="attr">name</span>=<span class="value">"description"</span> <span class="attr">content</span>=<span class="value">"Learn HTML from basic to advanced"</span>&gt;</span>
+<span class="tag">&lt;meta <span class="attr">name</span>=<span class="value">"keywords"</span> <span class="attr">content</span>=<span class="value">"HTML, tutorial, web development"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Open Graph for Social Media --&gt;</span>
+<span class="tag">&lt;meta <span class="attr">property</span>=<span class="value">"og:title"</span> <span class="attr">content</span>=<span class="value">"HTML Learning Website"</span>&gt;</span>
+<span class="tag">&lt;meta <span class="attr">property</span>=<span class="value">"og:description"</span> <span class="attr">content</span>=<span class="value">"Master HTML with interactive lessons"</span>&gt;</span>
+<span class="tag">&lt;meta <span class="attr">property</span>=<span class="value">"og:image"</span> <span class="attr">content</span>=<span class="value">"preview.jpg"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Twitter Card --&gt;</span>
+<span class="tag">&lt;meta <span class="attr">name</span>=<span class="value">"twitter:card"</span> <span class="attr">content</span>=<span class="value">"summary_large_image"</span>&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+                        <h4 style="margin: 0 0 10px 0; color: #1a73e8;">🔍 SEO Preview</h4>
+                        <div style="color: #1a73e8; font-weight: bold;">HTML Learning Website</div>
+                        <div style="color: #006621; font-size: 14px;">www.example.com</div>
+                        <div style="color: #545454; font-size: 13px; margin-top: 5px;">
+                            Master HTML with interactive lessons from basic to advanced level...
+                        </div>
+                    </div>
+                </div>
+                <div class="badge">SEO</div>
+                <div class="badge">Meta Data</div>
+            </div>
+
+            <div class="lesson-card intermediate-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">📱</div>
+                    <div class="lesson-title">HTML5 Elements</div>
+                </div>
+                <div class="lesson-description">
+                    Explore modern HTML5 elements for better structure, accessibility, and user experience.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 70%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- HTML5 Input Types --&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"date"</span> <span class="attr">name</span>=<span class="value">"birthday"</span>&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"color"</span> <span class="attr">name</span>=<span class="value">"favcolor"</span>&gt;</span>
+<span class="tag">&lt;input <span class="attr">type</span>=<span class="value">"range"</span> <span class="attr">min</span>=<span class="value">"0"</span> <span class="attr">max</span>=<span class="value">"100"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Progress and Meter --&gt;</span>
+<span class="tag">&lt;progress <span class="attr">value</span>=<span class="value">"70"</span> <span class="attr">max</span>=<span class="value">"100"</span>&gt;</span><span class="text">70%</span><span class="tag">&lt;/progress&gt;</span>
+<span class="tag">&lt;meter <span class="attr">value</span>=<span class="value">"8"</span> <span class="attr">min</span>=<span class="value">"0"</span> <span class="attr">max</span>=<span class="value">"10"</span>&gt;</span><span class="text">8 out of 10</span><span class="tag">&lt;/meter&gt;</span>
+
+<span class="comment">&lt;!-- Details and Summary --&gt;</span>
+<span class="tag">&lt;details&gt;</span>
+    <span class="tag">&lt;summary&gt;</span><span class="text">Click to expand</span><span class="tag">&lt;/summary&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="text">Hidden content goes here</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/details&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div>
+                            <label>Date: </label>
+                            <input type="date" style="margin-left: 10px;">
+                        </div>
+                        <div>
+                            <label>Color: </label>
+                            <input type="color" style="margin-left: 10px;">
+                        </div>
+                        <div>
+                            <label>Range: </label>
+                            <input type="range" style="margin-left: 10px;">
+                        </div>
+                        <div>Progress: <progress value="70" max="100">70%</progress></div>
+                        <div>Rating: <meter value="8" min="0" max="10">8 out of 10</meter></div>
+                        <details style="border: 1px solid #ccc; padding: 10px; border-radius: 4px;">
+                            <summary style="cursor: pointer; font-weight: bold;">Click to expand</summary>
+                            <p style="margin: 10px 0 0 0;">Hidden content appears here when expanded!</p>
+                        </details>
+                    </div>
+                </div>
+                <div class="badge">HTML5</div>
+                <div class="badge">Modern</div>
+            </div>
+
+            <!-- Advanced Lessons -->
+            <div class="lesson-card advanced-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🎬</div>
+                    <div class="lesson-title">Media Elements</div>
+                </div>
+                <div class="lesson-description">
+                    Embed images, videos, audio, and other media with proper attributes and responsive techniques.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 90%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Responsive Image --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="value">"image.jpg"</span> 
+     <span class="attr">alt</span>=<span class="value">"Description"</span> 
+     <span class="attr">loading</span>=<span class="value">"lazy"</span>
+     <span class="attr">style</span>=<span class="value">"max-width: 100%; height: auto;"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Video with Controls --&gt;</span>
+<span class="tag">&lt;video <span class="attr">controls</span> <span class="attr">width</span>=<span class="value">"400"</span>&gt;</span>
+    <span class="tag">&lt;source <span class="attr">src</span>=<span class="value">"video.mp4"</span> <span class="attr">type</span>=<span class="value">"video/mp4"</span>&gt;</span>
+    <span class="text">Your browser doesn't support video.</span>
+<span class="tag">&lt;/video&gt;</span>
+
+<span class="comment">&lt;!-- Audio Player --&gt;</span>
+<span class="tag">&lt;audio <span class="attr">controls</span>&gt;</span>
+    <span class="tag">&lt;source <span class="attr">src</span>=<span class="value">"audio.mp3"</span> <span class="attr">type</span>=<span class="value">"audio/mpeg"</span>&gt;</span>
+<span class="tag">&lt;/audio&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="background: #f0f0f0; padding: 20px; border: 2px dashed #ccc; text-align: center; margin: 10px 0;">
+                        📷 Responsive Image Placeholder
+                    </div>
+                    <div style="background: #000; color: white; padding: 20px; text-align: center; margin: 10px 0;">
+                        ▶️ Video Player Controls
+                    </div>
+                    <div style="background: #333; color: white; padding: 10px; text-align: center; margin: 10px 0;">
+                        🎵 Audio Player Controls
+                    </div>
+                </div>
+                <div class="badge">Multimedia</div>
+                <div class="badge">Responsive</div>
+            </div>
+
+            <div class="lesson-card advanced-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">⚙️</div>
+                    <div class="lesson-title">Advanced Attributes</div>
+                </div>
+                <div class="lesson-description">
+                    Master data attributes, ARIA labels, microdata, and other advanced HTML attributes for better functionality.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 95%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Data Attributes --&gt;</span>
+<span class="tag">&lt;div <span class="attr">data-user-id</span>=<span class="value">"123"</span> <span class="attr">data-role</span>=<span class="value">"admin"</span>&gt;</span><span class="text">User Info</span><span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- ARIA Accessibility --&gt;</span>
+<span class="tag">&lt;button <span class="attr">aria-label</span>=<span class="value">"Close dialog"</span> <span class="attr">aria-expanded</span>=<span class="value">"false"</span>&gt;</span><span class="text">×</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="comment">&lt;!-- Microdata --&gt;</span>
+<span class="tag">&lt;div <span class="attr">itemscope</span> <span class="attr">itemtype</span>=<span class="value">"http://schema.org/Person"</span>&gt;</span>
+    <span class="tag">&lt;span <span class="attr">itemprop</span>=<span class="value">"name"</span>&gt;</span><span class="text">John Doe</span><span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
+                        <strong>Data Attributes:</strong> Stores custom data
+                    </div>
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
+                        <strong>ARIA:</strong> Improves accessibility ×
+                    </div>
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 5px;">
+                        <strong>Microdata:</strong> Structured data for search engines
+                    </div>
+                </div>
+                <div class="badge">Advanced</div>
+                <div class="badge">SEO</div>
+                <div class="badge">Accessibility</div>
+            </div>
+
+            <div class="lesson-card advanced-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🎨</div>
+                    <div class="lesson-title">Canvas & SVG</div>
+                </div>
+                <div class="lesson-description">
+                    Create dynamic graphics and scalable vector graphics using HTML5 Canvas and SVG elements.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Canvas Element --&gt;</span>
+<span class="tag">&lt;canvas <span class="attr">id</span>=<span class="value">"myCanvas"</span> <span class="attr">width</span>=<span class="value">"400"</span> <span class="attr">height</span>=<span class="value">"200"</span>&gt;</span>
+    <span class="text">Your browser doesn't support canvas</span>
+<span class="tag">&lt;/canvas&gt;</span>
+
+<span class="comment">&lt;!-- SVG Graphics --&gt;</span>
+<span class="tag">&lt;svg <span class="attr">width</span>=<span class="value">"200"</span> <span class="attr">height</span>=<span class="value">"200"</span>&gt;</span>
+    <span class="tag">&lt;circle <span class="attr">cx</span>=<span class="value">"100"</span> <span class="attr">cy</span>=<span class="value">"100"</span> <span class="attr">r</span>=<span class="value">"50"</span> 
+            <span class="attr">fill</span>=<span class="value">"blue"</span> <span class="attr">stroke</span>=<span class="value">"black"</span> <span class="attr">stroke-width</span>=<span class="value">"2"</span>&gt;</span><span class="tag">&lt;/circle&gt;</span>
+    <span class="tag">&lt;rect <span class="attr">x</span>=<span class="value">"10"</span> <span class="attr">y</span>=<span class="value">"10"</span> <span class="attr">width</span>=<span class="value">"50"</span> <span class="attr">height</span>=<span class="value">"30"</span> <span class="attr">fill</span>=<span class="value">"red"</span>&gt;</span><span class="tag">&lt;/rect&gt;</span>
+<span class="tag">&lt;/svg&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
+                        <div style="border: 2px solid #333; width: 200px; height: 100px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                            📊 Canvas Area
+                        </div>
+                        <svg width="100" height="100" style="border: 1px solid #ccc;">
+                            <circle cx="50" cy="50" r="25" fill="#3b82f6" stroke="#1e40af" stroke-width="2"></circle>
+                            <rect x="5" y="5" width="25" height="15" fill="#ef4444"></rect>
+                        </svg>
+                    </div>
+                </div>
+                <div class="badge">Graphics</div>
+                <div class="badge">Interactive</div>
+            </div>
+
+            <div class="lesson-card advanced-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🚀</div>
+                    <div class="lesson-title">Performance Optimization</div>
+                </div>
+                <div class="lesson-description">
+                    Optimize your HTML for speed with lazy loading, preloading, and performance best practices.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 88%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Preloading Critical Resources --&gt;</span>
+<span class="tag">&lt;link <span class="attr">rel</span>=<span class="value">"preload"</span> <span class="attr">href</span>=<span class="value">"critical.css"</span> <span class="attr">as</span>=<span class="value">"style"</span>&gt;</span>
+<span class="tag">&lt;link <span class="attr">rel</span>=<span class="value">"preload"</span> <span class="attr">href</span>=<span class="value">"font.woff2"</span> <span class="attr">as</span>=<span class="value">"font"</span> <span class="attr">crossorigin</span>&gt;</span>
+
+<span class="comment">&lt;!-- Lazy Loading Images --&gt;</span>
+<span class="tag">&lt;img <span class="attr">src</span>=<span class="value">"image.jpg"</span> <span class="attr">loading</span>=<span class="value">"lazy"</span> <span class="attr">alt</span>=<span class="value">"Description"</span>&gt;</span>
+
+<span class="comment">&lt;!-- Defer Non-Critical Scripts --&gt;</span>
+<span class="tag">&lt;script <span class="attr">src</span>=<span class="value">"analytics.js"</span> <span class="attr">defer</span>&gt;</span><span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;script <span class="attr">src</span>=<span class="value">"non-critical.js"</span> <span class="attr">async</span>&gt;</span><span class="tag">&lt;/script&gt;</span>
+
+<span class="comment">&lt;!-- Resource Hints --&gt;</span>
+<span class="tag">&lt;link <span class="attr">rel</span>=<span class="value">"dns-prefetch"</span> <span class="attr">href</span>=<span class="value">"//fonts.googleapis.com"</span>&gt;</span>
+<span class="tag">&lt;link <span class="attr">rel</span>=<span class="value">"prefetch"</span> <span class="attr">href</span>=<span class="value">"next-page.html"</span>&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                        <div style="background: #10b981; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px;">⚡</div>
+                            <div style="font-size: 12px;">Preload Critical</div>
+                        </div>
+                        <div style="background: #3b82f6; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px;">🖼️</div>
+                            <div style="font-size: 12px;">Lazy Loading</div>
+                        </div>
+                        <div style="background: #8b5cf6; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px;">📜</div>
+                            <div style="font-size: 12px;">Defer Scripts</div>
+                        </div>
+                        <div style="background: #f59e0b; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px;">🔗</div>
+                            <div style="font-size: 12px;">Resource Hints</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="badge">Performance</div>
+                <div class="badge">Optimization</div>
+                <div class="badge">Speed</div>
+            </div>
+
+            <div class="lesson-card advanced-lesson hidden">
+                <div class="lesson-header">
+                    <div class="lesson-icon">🧩</div>
+                    <div class="lesson-title">Web Components</div>
+                </div>
+                <div class="lesson-description">
+                    Create reusable custom elements using modern web component technologies and shadow DOM.
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%;"></div>
+                </div>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                    <pre><code><span class="comment">&lt;!-- Custom Element Definition --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+<span class="text">class MyButton extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.innerHTML = `
+      &lt;style&gt;
+        button { padding: 10px; background: blue; color: white; }
+      &lt;/style&gt;
+      &lt;button&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/button&gt;
+    `;
+  }
+}
+customElements.define('my-button', MyButton);</span>
+<span class="tag">&lt;/script&gt;</span>
+
+<span class="comment">&lt;!-- Using Custom Element --&gt;</span>
+<span class="tag">&lt;my-button&gt;</span><span class="text">Click me!</span><span class="tag">&lt;/my-button&gt;</span>
+
+<span class="comment">&lt;!-- Template Element --&gt;</span>
+<span class="tag">&lt;template <span class="attr">id</span>=<span class="value">"card-template"</span>&gt;</span>
+    <span class="tag">&lt;div <span class="attr">class</span>=<span class="value">"card"</span>&gt;</span>
+        <span class="tag">&lt;slot <span class="attr">name</span>=<span class="value">"title"</span>&gt;</span><span class="tag">&lt;/slot&gt;</span>
+        <span class="tag">&lt;slot&gt;</span><span class="tag">&lt;/slot&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/template&gt;</span></code></pre>
+                </div>
+                <div class="live-preview">
+                    <div style="border: 2px solid #6366f1; border-radius: 8px; padding: 20px; background: rgba(99, 102, 241, 0.1);">
+                        <h4 style="margin: 0 0 10px 0; color: #6366f1;">🧩 Custom Web Component</h4>
+                        <button style="background: #3b82f6; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                            Click me!
+                        </button>
+                        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 4px; color: #333;">
+                            <strong>Card Template:</strong> Reusable component with slots
+                        </div>
+                    </div>
+                </div>
+                <div class="badge">Web Components</div>
+                <div class="badge">Custom Elements</div>
+                <div class="badge">Shadow DOM</div>
+            </div>
+        </section>
+
+        <section class="interactive-demo" id="practice">
+            <h3>🎯 Interactive Practice Zone</h3>
+            <p>Click here to start practicing what you've learned!</p>
+            <div class="badge">Hands-on</div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz-section" style="margin-top: 3rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🧠 Knowledge Quiz</h2>
+            
+            <div class="lesson-card" style="max-width: 600px; margin: 0 auto;">
+                <div class="quiz-container">
+                    <div class="quiz-question" id="quiz-question">
+                        <h3 id="question-text">What does HTML stand for?</h3>
+                        <div class="quiz-options" style="margin-top: 1.5rem;">
+                            <label class="quiz-option">
+                                <input type="radio" name="quiz-answer" value="0">
+                                <span class="option-text">HyperText Markup Language</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="quiz-answer" value="1">
+                                <span class="option-text">High Tech Modern Language</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="quiz-answer" value="2">
+                                <span class="option-text">Home Tool Markup Language</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="quiz-answer" value="3">
+                                <span class="option-text">Hyperlink and Text Markup Language</span>
+                            </label>
+                        </div>
+                        <button class="quiz-submit" onclick="checkAnswer()" style="margin-top: 1.5rem; padding: 0.75rem 2rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-size: 1rem; transition: all 0.3s ease;">
+                            Check Answer
+                        </button>
+                        <div class="quiz-result" id="quiz-result" style="margin-top: 1rem; padding: 1rem; border-radius: 0.5rem; display: none;"></div>
+                        <button class="quiz-next" onclick="nextQuestion()" style="margin-top: 1rem; padding: 0.5rem 1.5rem; background: var(--accent-color); color: white; border: none; border-radius: 0.5rem; cursor: pointer; display: none;">
+                            Next Question
+                        </button>
+                    </div>
+                    <div class="quiz-score" style="text-align: center; margin-top: 1rem;">
+                        Score: <span id="score">0</span> / <span id="total-questions">5</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Challenge Section -->
+        <section id="code-challenge" style="margin-top: 3rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--secondary-color), var(--success-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">⚡ Code Challenges</h2>
+            
+            <div class="lessons-container">
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <div class="lesson-icon">💻</div>
+                        <div class="lesson-title">Challenge 1: Create a Personal Card</div>
+                    </div>
+                    <div class="lesson-description">
+                        Create an HTML structure for a personal information card with your name, photo, and bio.
+                    </div>
+                    <div class="code-example">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                        <pre><code><span class="comment">&lt;!-- Your task: Create a personal card --&gt;</span>
+<span class="tag">&lt;div <span class="attr">class</span>=<span class="value">"personal-card"</span>&gt;</span>
+    <span class="comment">&lt;!-- Add your photo here --&gt;</span>
+    
+    <span class="comment">&lt;!-- Add your name as a heading --&gt;</span>
+    
+    <span class="comment">&lt;!-- Add your bio paragraph --&gt;</span>
+    
+    <span class="comment">&lt;!-- Add a list of your skills --&gt;</span>
+    
+<span class="tag">&lt;/div&gt;</span></code></pre>
+                    </div>
+                    <div class="interactive-demo" style="margin-top: 1rem;" onclick="showSolution(1)">
+                        <p>🔍 Click to see solution</p>
+                    </div>
+                    <div class="badge">Beginner</div>
+                    <div class="badge">Practice</div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <div class="lesson-icon">📝</div>
+                        <div class="lesson-title">Challenge 2: Build a Navigation Menu</div>
+                    </div>
+                    <div class="lesson-description">
+                        Create a semantic navigation menu with proper HTML structure and accessibility.
+                    </div>
+                    <div class="code-example">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                        <pre><code><span class="comment">&lt;!-- Create a navigation menu --&gt;</span>
+<span class="tag">&lt;nav&gt;</span>
+    <span class="comment">&lt;!-- Add a list with 5 navigation items --&gt;</span>
+    <span class="comment">&lt;!-- Include: Home, About, Services, Portfolio, Contact --&gt;</span>
+    <span class="comment">&lt;!-- Make them proper links --&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+                    </div>
+                    <div class="interactive-demo" style="margin-top: 1rem;" onclick="showSolution(2)">
+                        <p>🔍 Click to see solution</p>
+                    </div>
+                    <div class="badge">Intermediate</div>
+                    <div class="badge">Navigation</div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <div class="lesson-icon">📊</div>
+                        <div class="lesson-title">Challenge 3: Data Table</div>
+                    </div>
+                    <div class="lesson-description">
+                        Create a responsive data table showing employee information with proper table structure.
+                    </div>
+                    <div class="code-example">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                        <pre><code><span class="comment">&lt;!-- Create an employee table --&gt;</span>
+<span class="tag">&lt;table&gt;</span>
+    <span class="comment">&lt;!-- Headers: Name, Position, Department, Salary --&gt;</span>
+    <span class="comment">&lt;!-- Add at least 3 employee rows --&gt;</span>
+    <span class="comment">&lt;!-- Use proper thead, tbody structure --&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+                    </div>
+                    <div class="interactive-demo" style="margin-top: 1rem;" onclick="showSolution(3)">
+                        <p>🔍 Click to see solution</p>
+                    </div>
+                    <div class="badge">Advanced</div>
+                    <div class="badge">Tables</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" style="margin-top: 3rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--warning-color), var(--danger-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">📚 Additional Resources</h2>
+            
+            <div class="lessons-container">
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <div class="lesson-icon">📖</div>
+                        <div class="lesson-title">HTML Cheat Sheet</div>
+                    </div>
+                    <div class="lesson-description">
+                        Quick reference guide for common HTML tags and attributes.
+                    </div>
+                    <div class="code-example">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                        <pre><code><span class="comment">&lt;!-- Essential HTML Tags --&gt;</span>
+<span class="tag">&lt;h1&gt;</span> to <span class="tag">&lt;h6&gt;</span>     <span class="comment">Headings</span>
+<span class="tag">&lt;p&gt;</span>              <span class="comment">Paragraph</span>
+<span class="tag">&lt;a href=""&gt;</span>     <span class="comment">Link</span>
+<span class="tag">&lt;img src=""&gt;</span>    <span class="comment">Image</span>
+<span class="tag">&lt;ul&gt;&lt;li&gt;</span>        <span class="comment">Unordered List</span>
+<span class="tag">&lt;ol&gt;&lt;li&gt;</span>        <span class="comment">Ordered List</span>
+<span class="tag">&lt;div&gt;</span>            <span class="comment">Generic Container</span>
+<span class="tag">&lt;span&gt;</span>           <span class="comment">Inline Container</span>
+<span class="tag">&lt;br&gt;</span>             <span class="comment">Line Break</span>
+<span class="tag">&lt;hr&gt;</span>             <span class="comment">Horizontal Rule</span></code></pre>
+                    </div>
+                    <div class="badge">Reference</div>
+                    <div class="badge">Quick Guide</div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <div class="lesson-icon">🎯</div>
+                        <div class="lesson-title">Best Practices</div>
+                    </div>
+                    <div class="lesson-description">
+                        Follow these HTML best practices for clean, maintainable, and accessible code.
+                    </div>
+                    <div class="live-preview">
+                        <div style="padding: 1rem; background: #f8f9fa; border-radius: 0.5rem; color: #333;">
+                            <h4 style="margin: 0 0 1rem 0; color: #2d3748;">💡 Best Practices:</h4>
+                            <ul style="margin: 0; padding-left: 1.5rem;">
+                                <li>Always use semantic HTML elements</li>
+                                <li>Include proper alt text for images</li>
+                                <li>Use proper heading hierarchy (h1 → h2 → h3)</li>
+                                <li>Validate your HTML code</li>
+                                <li>Keep your code properly indented</li>
+                                <li>Use lowercase for all HTML tags</li>
+                                <li>Always close your tags properly</li>
+                                <li>Add lang attribute to html element</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="badge">Guidelines</div>
+                    <div class="badge">Quality</div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="lesson-header">
+                        <div class="lesson-icon">🛠️</div>
+                        <div class="lesson-title">Useful Tools</div>
+                    </div>
+                    <div class="lesson-description">
+                        Recommended tools and resources for HTML development and validation.
+                    </div>
+                    <div class="live-preview">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔧</div>
+                                <div style="font-weight: bold;">VS Code</div>
+                                <div style="font-size: 0.8rem;">Code Editor</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✅</div>
+                                <div style="font-weight: bold;">W3C Validator</div>
+                                <div style="font-size: 0.8rem;">HTML Validation</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🌐</div>
+                                <div style="font-weight: bold;">Can I Use</div>
+                                <div style="font-size: 0.8rem;">Browser Support</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📱</div>
+                                <div style="font-weight: bold;">Chrome DevTools</div>
+                                <div style="font-size: 0.8rem;">Debugging</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="badge">Tools</div>
+                    <div class="badge">Development</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="notification" id="notification">
+        <span>✅</span>
+        <span>Code copied to clipboard!</span>
+    </div>
+
+    <script>
+        // Mouse glow effect
+        const mouseGlow = document.getElementById('mouseGlow');
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseGlow.style.left = (e.clientX - 100) + 'px';
+            mouseGlow.style.top = (e.clientY - 100) + 'px';
+            mouseGlow.style.opacity = '1';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            mouseGlow.style.opacity = '0';
+        });
+
+        // Level selection functionality
+        const levelRadios = document.querySelectorAll('input[name="level"]');
+        const beginnerLessons = document.querySelectorAll('.beginner-lesson');
+        const intermediateLessons = document.querySelectorAll('.intermediate-lesson');
+        const advancedLessons = document.querySelectorAll('.advanced-lesson');
+
+        levelRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const selectedLevel = e.target.id;
+                
+                // Hide all lessons
+                beginnerLessons.forEach(lesson => lesson.classList.add('hidden'));
+                intermediateLessons.forEach(lesson => lesson.classList.add('hidden'));
+                advancedLessons.forEach(lesson => lesson.classList.add('hidden'));
+                
+                // Show lessons based on selection
+                if (selectedLevel === 'beginner') {
+                    beginnerLessons.forEach(lesson => lesson.classList.remove('hidden'));
+                } else if (selectedLevel === 'intermediate') {
+                    intermediateLessons.forEach(lesson => lesson.classList.remove('hidden'));
+                } else if (selectedLevel === 'advanced') {
+                    advancedLessons.forEach(lesson => lesson.classList.remove('hidden'));
+                }
+                
+                // Add animation to newly visible lessons
+                setTimeout(() => {
+                    const visibleLessons = document.querySelectorAll('.lesson-card:not(.hidden)');
+                    visibleLessons.forEach((lesson, index) => {
+                        lesson.style.animation = `fadeInUp 0.5s ease ${index * 0.1}s both`;
+                    });
+                }, 50);
+            });
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(button) {
+            const codeBlock = button.nextElementSibling.textContent;
+            navigator.clipboard.writeText(codeBlock).then(() => {
+                showNotification();
+                
+                // Visual feedback for button
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#10b981';
+                }, 2000);
+            });
+        }
+
+        // Show notification
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Add hover effects to lesson cards
+        document.querySelectorAll('.lesson-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Interactive demo click handler
+        document.querySelector('.interactive-demo').addEventListener('click', () => {
+            alert('🚀 Practice mode coming soon! This will open an interactive HTML editor.');
+        });
+
+        // Quiz System
+        const quizQuestions = [
+            {
+                question: "What does HTML stand for?",
+                options: [
+                    "HyperText Markup Language",
+                    "High Tech Modern Language", 
+                    "Home Tool Markup Language",
+                    "Hyperlink and Text Markup Language"
+                ],
+                correct: 0,
+                explanation: "HTML stands for HyperText Markup Language - the standard markup language for creating web pages."
+            },
+            {
+                question: "Which HTML tag is used for the largest heading?",
+                options: [
+                    "&lt;h6&gt;",
+                    "&lt;h1&gt;",
+                    "&lt;header&gt;",
+                    "&lt;heading&gt;"
+                ],
+                correct: 1,
+                explanation: "The &lt;h1&gt; tag is used for the largest heading, while &lt;h6&gt; is the smallest."
+            },
+            {
+                question: "What attribute specifies the URL of a link?",
+                options: [
+                    "src",
+                    "link",
+                    "href",
+                    "url"
+                ],
+                correct: 2,
+                explanation: "The 'href' attribute specifies the URL of the page the link goes to."
+            },
+            {
+                question: "Which tag is used to create a line break?",
+                options: [
+                    "&lt;break&gt;",
+                    "&lt;lb&gt;",
+                    "&lt;br&gt;",
+                    "&lt;newline&gt;"
+                ],
+                correct: 2,
+                explanation: "The &lt;br&gt; tag creates a line break in HTML."
+            },
+            {
+                question: "What does the 'alt' attribute in an img tag provide?",
+                options: [
+                    "Alternative image source",
+                    "Alternative text description",
+                    "Image alignment",
+                    "Image animation"
+                ],
+                correct: 1,
+                explanation: "The 'alt' attribute provides alternative text for an image if it cannot be displayed."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function displayQuestion() {
+            const question = quizQuestions[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((option, index) => {
+                option.querySelector('.option-text').innerHTML = question.options[index];
+                option.querySelector('input').value = index;
+                option.querySelector('input').checked = false;
+                option.classList.remove('correct', 'incorrect');
+                option.style.pointerEvents = 'auto';
+            });
+
+            document.getElementById('quiz-result').style.display = 'none';
+            document.querySelector('.quiz-next').style.display = 'none';
+            document.querySelector('.quiz-submit').style.display = 'inline-block';
+            answered = false;
+        }
+
+        function checkAnswer() {
+            if (answered) return;
+            
+            const selectedAnswer = document.querySelector('input[name="quiz-answer"]:checked');
+            if (!selectedAnswer) {
+                alert('Please select an answer!');
+                return;
+            }
+
+            answered = true;
+            const selectedValue = parseInt(selectedAnswer.value);
+            const question = quizQuestions[currentQuestion];
+            const options = document.querySelectorAll('.quiz-option');
+            const resultDiv = document.getElementById('quiz-result');
+
+            // Disable all options
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+
+            // Show correct answer
+            options[question.correct].classList.add('correct');
+            
+            if (selectedValue === question.correct) {
+                score++;
+                resultDiv.textContent = '✅ Correct! ' + question.explanation;
+                resultDiv.className = 'quiz-result correct';
+                
+                // Add celebration effect
+                createConfetti();
+            } else {
+                options[selectedValue].classList.add('incorrect');
+                resultDiv.textContent = '❌ Incorrect. ' + question.explanation;
+                resultDiv.className = 'quiz-result incorrect';
+            }
+
+            resultDiv.style.display = 'block';
+            document.querySelector('.quiz-submit').style.display = 'none';
+            document.querySelector('.quiz-next').style.display = 'inline-block';
+            
+            // Update score
+            document.getElementById('score').textContent = score;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizQuestions.length) {
+                displayQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            let message = '';
+            let emoji = '';
+
+            if (percentage >= 80) {
+                message = 'Excellent work! You have a great understanding of HTML!';
+                emoji = '🏆';
+            } else if (percentage >= 60) {
+                message = 'Good job! Keep practicing to improve your HTML skills.';
+                emoji = '👍';
+            } else {
+                message = 'Keep learning! Review the lessons and try again.';
+                emoji = '📚';
+            }
+
+            document.getElementById('question-text').innerHTML = `
+                ${emoji} Quiz Complete!<br>
+                <div style="font-size: 1rem; margin-top: 1rem; color: var(--text-secondary);">
+                    You scored ${score} out of ${quizQuestions.length} (${percentage}%)
+                </div>
+            `;
+            
+            document.querySelector('.quiz-options').innerHTML = `
+                <div style="text-align: center; padding: 2rem; background: var(--card-bg); border-radius: 0.5rem; margin: 1rem 0;">
+                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">${message}</p>
+                    <button onclick="restartQuiz()" style="padding: 0.75rem 2rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; cursor: pointer; margin-right: 1rem;">
+                        Try Again
+                    </button>
+                    <button onclick="scrollToSection('lessons')" style="padding: 0.75rem 2rem; background: var(--accent-color); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                        Review Lessons
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('quiz-result').style.display = 'none';
+            document.querySelector('.quiz-submit').style.display = 'none';
+            document.querySelector('.quiz-next').style.display = 'none';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('score').textContent = score;
+            
+            // Restore original quiz structure
+            document.querySelector('.quiz-options').innerHTML = `
+                <label class="quiz-option">
+                    <input type="radio" name="quiz-answer" value="0">
+                    <span class="option-text"></span>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz-answer" value="1">
+                    <span class="option-text"></span>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz-answer" value="2">
+                    <span class="option-text"></span>
+                </label>
+                <label class="quiz-option">
+                    <input type="radio" name="quiz-answer" value="3">
+                    <span class="option-text"></span>
+                </label>
+            `;
+            
+            displayQuestion();
+        }
+
+        function createConfetti() {
+            // Simple confetti effect
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = ['🎉', '🎊', '⭐', '✨', '🌟'][Math.floor(Math.random() * 5)];
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.fontSize = '20px';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.animation = 'fall 3s linear forwards';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Challenge Solutions
+        const solutions = {
+            1: `<div class="personal-card">
+    <img src="profile-photo.jpg" alt="Your Name" style="width: 150px; border-radius: 50%;">
+    <h2>Your Name</h2>
+    <p>A passionate web developer with experience in creating amazing user experiences.</p>
+    <h3>Skills:</h3>
+    <ul>
+        <li>HTML & CSS</li>
+        <li>JavaScript</li>
+        <li>Responsive Design</li>
+        <li>Problem Solving</li>
+    </ul>
+</div>`,
+            2: `<nav>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>`,
+            3: `<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Department</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John Smith</td>
+            <td>Software Engineer</td>
+            <td>IT</td>
+            <td>$75,000</td>
+        </tr>
+        <tr>
+            <td>Sarah Johnson</td>
+            <td>UX Designer</td>
+            <td>Design</td>
+            <td>$65,000</td>
+        </tr>
+        <tr>
+            <td>Mike Davis</td>
+            <td>Project Manager</td>
+            <td>Management</td>
+            <td>$80,000</td>
+        </tr>
+    </tbody>
+</table>`
+        };
+
+        function showSolution(challengeNumber) {
+            const solutionHtml = `
+                <div class="challenge-solution solution-visible">
+                    <h4 style="color: var(--success-color); margin-bottom: 1rem;">✅ Solution:</h4>
+                    <div class="code-example">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copy</button>
+                        <pre><code>${solutions[challengeNumber]}</code></pre>
+                    </div>
+                </div>
+            `;
+            
+            // Find the challenge card and add solution
+            const challengeCards = document.querySelectorAll('#code-challenge .lesson-card');
+            const targetCard = challengeCards[challengeNumber - 1];
+            
+            // Remove existing solution if present
+            const existingSolution = targetCard.querySelector('.challenge-solution');
+            if (existingSolution) {
+                existingSolution.remove();
+                return;
+            }
+            
+            targetCard.insertAdjacentHTML('beforeend', solutionHtml);
+        }
+
+        // Skill meter animation
+        function animateSkillMeters() {
+            const skillMeters = document.querySelectorAll('.skill-fill');
+            skillMeters.forEach(meter => {
+                const targetWidth = meter.dataset.width || '0%';
+                meter.style.width = '0%';
+                setTimeout(() => {
+                    meter.style.width = targetWidth;
+                }, 500);
+            });
+        }
+
+        // Floating particles initialization
+        function createFloatingParticles() {
+            const particleCount = 15;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particles';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                
+                // Random colors
+                const colors = ['var(--primary-color)', 'var(--secondary-color)', 'var(--accent-color)'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Enhanced notification with more animations
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            // Add sparkle effect
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.right = '4rem';
+                    sparkle.style.top = '2rem';
+                    sparkle.style.fontSize = '20px';
+                    sparkle.style.zIndex = '9999';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.animation = 'floatingParticles 2s ease-out forwards';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 2000);
+                }, i * 200);
+            }
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Enhanced copy button feedback with ripple and animation
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.8);
+                    transform: scale(0);
+                    animation: ripple 0.8s linear;
+                    pointer-events: none;
+                `;
+                
+                const rect = btn.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height) * 2;
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+                
+                btn.style.position = 'relative';
+                btn.style.overflow = 'hidden';
+                btn.appendChild(ripple);
+                
+                // Animate button
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        btn.style.transform = 'scale(1)';
+                    }, 100);
+                }, 50);
+                
+                setTimeout(() => ripple.remove(), 800);
+            });
+        });
+
+        // Enhanced lesson card animations
+        function enhanceLessonAnimations() {
+            const cards = document.querySelectorAll('.lesson-card');
+            cards.forEach((card, index) => {
+                // Stagger the initial animations
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                // Add hover sound effect simulation
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-15px) scale(1.03) rotateX(8deg)';
+                    card.style.boxShadow = `
+                        0 30px 60px rgba(0, 0, 0, 0.4),
+                        0 0 40px var(--glow-color),
+                        inset 0 2px 0 rgba(255, 255, 255, 0.2)
+                    `;
+                    
+                    // Add glow pulse to icon
+                    const icon = card.querySelector('.lesson-icon');
+                    if (icon) {
+                        icon.style.animation = 'float 2s ease-in-out infinite, pulse 1s ease-in-out infinite';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+                    card.style.boxShadow = 'none';
+                    
+                    // Reset icon animation
+                    const icon = card.querySelector('.lesson-icon');
+                    if (icon) {
+                        icon.style.animation = 'float 4s ease-in-out infinite';
+                    }
+                });
+            });
+        }
+
+        // Progress bar wave animation
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach((bar, index) => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                    
+                    // Add completion celebration
+                    setTimeout(() => {
+                        if (parseInt(targetWidth) >= 80) {
+                            const celebration = document.createElement('div');
+                            celebration.innerHTML = '🎉';
+                            celebration.style.position = 'absolute';
+                            celebration.style.right = '10px';
+                            celebration.style.top = '50%';
+                            celebration.style.transform = 'translateY(-50%)';
+                            celebration.style.animation = 'bounceIn 0.8s ease';
+                            bar.parentElement.style.position = 'relative';
+                            bar.parentElement.appendChild(celebration);
+                            
+                            setTimeout(() => celebration.remove(), 2000);
+                        }
+                    }, 1000);
+                }, 500 + index * 200);
+            });
+        }
+
+        // Badge hover effects
+        function enhanceBadges() {
+            document.querySelectorAll('.badge').forEach(badge => {
+                badge.addEventListener('mouseenter', () => {
+                    badge.style.animation = 'bounceIn 0.6s ease, pulse 1s ease infinite';
+                });
+                
+                badge.addEventListener('mouseleave', () => {
+                    badge.style.animation = 'none';
+                });
+            });
+        }
+
+        // Initialize all enhancements
+        window.addEventListener('load', () => {
+            createFloatingParticles();
+            displayQuestion();
+            animateProgressBars();
+            enhanceLessonAnimations();
+            enhanceBadges();
+            
+            // Typewriter effect for hero title
+            const heroTitle = document.querySelector('.hero h1');
+            if (heroTitle) {
+                heroTitle.classList.add('typewriter-text');
+            }
+        });
+
+        // Add fall animation for confetti
+        const fallAnimation = document.createElement('style');
+        fallAnimation.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(fallAnimation);
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all lesson cards
+        document.querySelectorAll('.lesson-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Progress bar animation
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        }
+
+        // Trigger progress animation when level changes
+        levelRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                setTimeout(animateProgressBars, 300);
+            });
+        });
+
+        // Initial animation
+        window.addEventListener('load', () => {
+            animateProgressBars();
+        });
+
+        // Add floating animation to lesson icons
+        document.querySelectorAll('.lesson-icon').forEach((icon, index) => {
+            icon.style.animationDelay = `${index * 0.2}s`;
+        });
+
+        // Enhanced copy button feedback
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.6);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                const rect = btn.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+                
+                btn.style.position = 'relative';
+                btn.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
